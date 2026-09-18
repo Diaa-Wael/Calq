@@ -1,7 +1,7 @@
 type Action =
   | 'shift' | 'alpha' | 'mode' | 'power' | 'calc' | 'integral' | 'reciprocal' | 'root'
   | 'logbase' | 'fraction' | 'sqrt' | 'square' | 'powerFn' | 'log' | 'ln' | 'negate'
-  | 'angle' | 'hyp' | 'sin' | 'cos' | 'tan' | 'rcl' | 'eng' | 'leftParen' | 'rightParen'
+  | 'dms' | 'hyp' | 'sin' | 'cos' | 'tan' | 'rcl' | 'eng' | 'leftParen' | 'rightParen'
   | 'pi' | 'constant' | 'percent' | 'toggleFraction' | 'delete' | 'clear' | 'multiply'
   | 'divide' | 'add' | 'subtract' | 'decimal' | 'exp' | 'answer' | 'equals' | 'zero';
 
@@ -287,7 +287,8 @@ class Parser {
 
     const char = this.source[this.index] ?? '';
     if (/[0-9.]/.test(char)) {
-      return this.parseNumber();
+      const degrees = this.parseNumber();
+      return this.parseSexagesimalTail(degrees);
     }
     if (char === 'π') {
       this.index += 1;
@@ -303,6 +304,33 @@ class Parser {
     }
     if (isIdentifierStart(char)) return this.parseFunction();
     throw new Error('Syntax Error');
+  }
+
+  private parseSexagesimalTail(degrees: number): number {
+    this.skipSpaces();
+    if (!this.match('°')) return degrees;
+
+    let minutes = 0;
+    let seconds = 0;
+
+    this.skipSpaces();
+    const next = this.source[this.index] ?? '';
+    if (/[0-9.]/.test(next)) {
+      minutes = this.parseNumber();
+      this.skipSpaces();
+      if (!this.match('′')) throw new Error('Syntax Error');
+
+      this.skipSpaces();
+      const secStart = this.source[this.index] ?? '';
+      if (/[0-9.]/.test(secStart)) {
+        seconds = this.parseNumber();
+        this.skipSpaces();
+        if (!this.match('″')) throw new Error('Syntax Error');
+      }
+    }
+
+    if (minutes < 0 || minutes >= 60 || seconds < 0 || seconds >= 60) throw new Error('Math Error');
+    return degrees + minutes / 60 + seconds / 3600;
   }
 
   private parseNumber(): number {
@@ -365,6 +393,9 @@ function normalizeRawExpression(raw: string): string {
     .replaceAll('×', '*')
     .replaceAll('÷', '/')
     .replaceAll('−', '-')
+    .replaceAll('º', '°')
+    .replaceAll("'", '′')
+    .replaceAll('\"', '″')
     .replaceAll('²', '^2')
     .replaceAll('³', '^3')
     .replace(/Ans/g, 'Ans');
@@ -419,6 +450,43 @@ function decimalToFraction(value: number): string {
     if (bestError < 1e-10) break;
   }
   return `${sign * bestNum}/${bestDen}`;
+}
+
+function decimalToSexagesimal(value: number): string {
+  if (!Number.isFinite(value)) return 'Math Error';
+  const sign = value < 0 ? '−' : '';
+  let x = Math.abs(value);
+  let degrees = Math.floor(x);
+  x = (x - degrees) * 60;
+  let minutes = Math.floor(x + 1e-12);
+  let seconds = Number(((x - minutes) * 60).toPrecision(10));
+
+  if (seconds >= 60) { seconds = 0; minutes += 1; }
+  if (minutes >= 60) { minutes = 0; degrees += 1; }
+  return `${sign}${degrees}°${minutes}′${formatNumber(seconds)}″`;
+}
+
+function insertNextDmsMarker(): void {
+  if (!poweredOn) return;
+  prepareInput();
+  const trimmed = input.trim();
+  if (!trimmed || !/[0-9.)]$/.test(trimmed)) {
+    update();
+    return;
+  }
+
+  const currentToken = (trimmed.split(/[+−×÷]/).pop() ?? '').replace(/^.*?[\(]/, '');
+  if (currentToken.includes('″')) {
+    // Sexagesimal token is already complete.
+  } else if (currentToken.includes('′')) {
+    input += '″';
+  } else if (currentToken.includes('°')) {
+    input += '′';
+  } else {
+    input += '°';
+  }
+  resultText = input;
+  update();
 }
 
 function engineering(value: number): string {
@@ -508,11 +576,14 @@ function handleScientific(action: Action): void {
     case 'negate':
       wrapUnary('−');
       break;
-    case 'angle':
+    case 'dms':
       if (useShift) {
-        angleMode = angleMode === 'DEG' ? 'RAD' : angleMode === 'RAD' ? 'GRAD' : 'DEG';
+        const value = safeValue();
+        resultText = decimalToSexagesimal(value);
+        input = resultText;
+        justCalculated = true;
       } else {
-        applyPostfix('°');
+        insertNextDmsMarker();
       }
       break;
     case 'hyp':

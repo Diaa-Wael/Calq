@@ -88,6 +88,12 @@ Result:
 
 Keyboard exponent input is also supported with `^`.
 
+## Degree-Minute-Second (DMS)
+
+The `° ′ ″` key supports classic sexagesimal angle input. Press it after a degree value to add `°`, then after the minutes value to add `′`, then after the seconds value to add `″`. SHIFT on the same key converts a decimal angle to DMS notation.
+
+Example: `2°20′30″` evaluates as `2.341666...`, and `2.255` converted with SHIFT becomes `2°15′18″`.
+
 ## SHIFT Functions
 
 Press **SHIFT** to activate the alternate function layer.

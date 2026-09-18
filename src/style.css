@@ -854,3 +854,10 @@ button {
   .screen-expression { font-size: 11px; }
   .screen-result { font-size: 18px; }
 }
+
+
+.dms-symbol {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: clamp(11px, 3.1vw, 16px) !important;
+  letter-spacing: .03em;
+}
