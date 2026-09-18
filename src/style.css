@@ -276,6 +276,56 @@ button {
 .equals-key { background: linear-gradient(180deg, #9ba0a4, #686e73); }
 
 .exp-key strong { font-size: clamp(10px, 2.4vw, 13px); }
+/* Classic scientific-calculator notation: hollow exponent and fraction templates. */
+.power-symbol {
+  display: inline-flex !important;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 1px;
+  line-height: 1;
+  min-height: 18px;
+}
+.power-symbol .x-letter {
+  font-size: 1em;
+  line-height: .9;
+}
+.power-box {
+  width: 8px;
+  height: 7px;
+  border: 1.3px solid currentColor;
+  border-radius: .5px;
+  display: inline-block;
+  transform: translateY(-7px);
+  background: transparent;
+}
+.fraction-symbol {
+  display: grid !important;
+  grid-template-columns: 14px;
+  grid-template-rows: 7px 1px 7px;
+  justify-items: stretch;
+  align-items: center;
+  width: 14px;
+  height: 17px;
+  margin-inline: auto;
+}
+.fraction-box {
+  width: 10px;
+  height: 5px;
+  border: 1.2px solid currentColor;
+  border-radius: .5px;
+  justify-self: center;
+  background: transparent;
+}
+.fraction-bar {
+  width: 14px;
+  height: 1px;
+  background: currentColor;
+  display: block;
+}
+.fraction-den {
+  grid-row: 3;
+}
+
 
 .footer-note {
   display: flex;
