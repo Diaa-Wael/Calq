@@ -1,45 +1,37 @@
-# Calq — Modern Scientific Calculator
+# Calq
 
-Calq is a responsive TypeScript + Vite calculator UI inspired by the keypad arrangement of the reference **Casio fx-991ES PLUS 2nd edition** calculator.
+Calq is a responsive TypeScript + Vite scientific calculator UI styled around the classic ES-series natural-display calculator layout.
 
-The app intentionally uses its own modern visual treatment rather than reproducing the product shell or logo. The reference keypad is organized around SHIFT / ALPHA / replay / MODE / ON controls, scientific function keys, and the 5-column numeric/operator area.
+## What changed
 
-## Included
+- Scientific keypad is no longer a generic 4-column calculator.
+- Dedicated exponent controls: **x²** and **xʸ** now work.
+- The `^` keyboard key also inserts an exponent operator.
+- **√**, **∛**, **1/x**, **x!**, **log**, **ln**, **10ˣ**, **eˣ**, trig and inverse trig controls are wired up.
+- DEG / RAD / GRAD angle modes.
+- SHIFT and ALPHA state indicators.
+- Natural-display-style LCD and physical-key styling.
+- Mobile portrait and landscape layouts with safe-area support.
+- Keyboard and touch input.
+- Replay history, memory recall/store, Ans, fraction toggle, and engineering notation.
 
-- TypeScript calculator logic
-- Modern dark hardware-inspired UI
-- Natural-display style screen
-- Responsive mobile layout that fills the phone viewport
-- iOS / Android safe-area support
-- Landscape-phone breakpoint
-- Touch / mouse / keyboard interaction
-- SHIFT and ALPHA indicators
-- DEG / RAD toggle
-- Trigonometry and inverse trigonometry
-- Hyperbolic trig toggle
-- Powers, roots, logarithms, factorial
-- Memory and Ans
-- Engineering notation
-- Fraction-style toggle
-- Calculation history replay control
-- Light/dark display toggle
-- Favicon SVG
+The visual branding uses **CALQ** as the app wordmark while taking visual cues from the supplied ES-style reference rather than presenting the app as an official Casio product.
 
-## Run locally
+## Run
 
 ```bash
 npm install
 npm run dev
 ```
 
-Open the local URL printed by Vite, normally:
+Then open the local Vite URL, normally:
 
-`http://localhost:5173`
+```text
+http://localhost:5173
+```
 
 ## Production build
 
 ```bash
 npm run build
 ```
-
-The production build is generated in `dist/`.

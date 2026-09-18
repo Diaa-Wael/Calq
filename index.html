@@ -3,108 +3,134 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <meta name="theme-color" content="#15181d" />
-    <meta name="description" content="Calq — a modern responsive scientific calculator inspired by a classic ES-style keypad." />
+    <meta name="theme-color" content="#15171a" />
+    <meta name="description" content="Calq — a responsive scientific calculator with a classic natural-display keypad." />
     <link rel="icon" type="image/svg+xml" href="/calculator.svg" />
     <title>Calq</title>
   </head>
   <body>
     <main class="page">
       <section class="calculator" aria-label="Calq scientific calculator">
-        <header class="calculator-top">
-          <div class="branding">
-            <span class="brand">CALQ</span>
-            <span class="model">NATURAL DISPLAY</span>
+        <header class="top-brand">
+          <div class="wordmark-wrap">
+            <div class="wordmark">CALQ</div>
+            <div class="model-name">fx-991ES PLUS</div>
+            <div class="natural">NATURAL-V.P.A.M.</div>
           </div>
-          <div class="solar" aria-hidden="true">
-            <i></i><i></i><i></i><i></i>
+          <div class="top-right">
+            <div class="solar-strip" aria-hidden="true">
+              <i></i><i></i><i></i><i></i>
+            </div>
+            <div class="edition">2nd edition</div>
           </div>
-          <button class="ghost-btn" id="theme-toggle" type="button" aria-label="Toggle display theme">◐</button>
         </header>
 
-        <section class="screen-shell" aria-label="Calculator display">
-          <div class="screen-status">
-            <span id="shift-indicator">SHIFT</span>
-            <span id="alpha-indicator">ALPHA</span>
-            <span class="status-spacer"></span>
-            <span id="angle-indicator">DEG</span>
-            <span id="memory-indicator">M</span>
+        <section class="display-frame" aria-label="Calculator display">
+          <div class="display-topline">
+            <div class="status-left">
+              <span id="shift-indicator">SHIFT</span>
+              <span id="alpha-indicator">ALPHA</span>
+            </div>
+            <div class="status-right">
+              <span id="angle-indicator">DEG</span>
+              <span id="memory-indicator">M</span>
+            </div>
           </div>
-          <div class="screen-expression" id="expression" aria-live="polite">&nbsp;</div>
-          <div class="screen-value" id="display" aria-live="polite">0</div>
+          <div class="screen" id="screen" tabindex="0" aria-live="polite">
+            <div class="screen-expression" id="expression">0</div>
+            <div class="screen-result" id="display">0</div>
+          </div>
         </section>
 
-        <section class="control-row" aria-label="Main controls">
-          <button class="key key-round" data-action="shift" type="button"><small></small><b>SHIFT</b></button>
-          <button class="key key-round" data-action="alpha" type="button"><small></small><b>ALPHA</b></button>
-          <button class="replay" id="replay" type="button" aria-label="Replay controls">
-            <span class="replay-ring">
-              <span class="replay-up">▲</span>
-              <span class="replay-left">◀</span>
-              <span class="replay-right">▶</span>
-              <span class="replay-down">▼</span>
-              <span class="replay-center">•</span>
-            </span>
+        <section class="top-controls" aria-label="Calculator controls">
+          <div class="control-stack">
+            <span class="caption yellow">SHIFT</span>
+            <button class="key round-key mode-key" data-action="shift" aria-label="Shift">SHIFT</button>
+          </div>
+          <div class="control-stack">
+            <span class="caption red">ALPHA</span>
+            <button class="key round-key mode-key" data-action="alpha" aria-label="Alpha">ALPHA</button>
+          </div>
+
+          <button class="replay" id="replay" type="button" aria-label="Replay previous calculations">
+            <span class="replay-arrow up">▲</span>
+            <span class="replay-arrow left">◀</span>
+            <span class="replay-arrow right">▶</span>
+            <span class="replay-arrow down">▼</span>
+            <span class="replay-center">OK</span>
           </button>
-          <button class="key key-round" data-action="mode" type="button"><small></small><b>MODE</b></button>
-          <button class="key key-round" data-action="power" type="button"><small></small><b>ON</b></button>
+
+          <div class="control-stack">
+            <span class="caption white">MODE SETUP</span>
+            <button class="key round-key mode-key" data-action="mode" aria-label="Mode and setup">MODE</button>
+          </div>
+          <div class="control-stack">
+            <span class="caption white">ON</span>
+            <button class="key round-key mode-key on-key" data-action="power" aria-label="Power">ON</button>
+          </div>
         </section>
 
-        <section class="function-grid" id="function-grid" aria-label="Scientific functions">
-          <button class="key sci" data-action="calc" type="button"><small>SOLVE</small><b>CALC</b></button>
-          <button class="key sci" data-action="integral" type="button"><small>d/dx</small><b>∫dx</b></button>
-          <button class="key sci" data-action="reciprocal" type="button"><small>x!</small><b>x⁻¹</b></button>
-          <button class="key sci" data-action="logbase" type="button"><small>√</small><b>logₐb</b></button>
-          <button class="key sci" data-action="sqrt" type="button"><small>∛</small><b>√</b></button>
+        <section class="scientific-grid" id="scientific-grid" aria-label="Scientific function keys">
+          <button class="key fn-key" data-action="calc"><span class="shift-label">SOLVE =</span><strong>CALC</strong></button>
+          <button class="key fn-key" data-action="integral"><span class="shift-label">d/dx</span><strong>∫dx</strong></button>
+          <button class="key fn-key" data-action="reciprocal"><span class="shift-label">x!</span><strong>x⁻¹</strong></button>
+          <button class="key fn-key" data-action="root"><span class="shift-label">x⁻¹</span><strong>√</strong></button>
+          <button class="key fn-key" data-action="logbase"><span class="shift-label">10ˣ</span><strong>log□</strong></button>
 
-          <button class="key sci" data-action="square" type="button"><small>x³</small><b>x²</b></button>
-          <button class="key sci" data-action="powerFn" type="button"><small>x⁻¹</small><b>xʸ</b></button>
-          <button class="key sci" data-action="log" type="button"><small>10ˣ</small><b>log</b></button>
-          <button class="key sci" data-action="ln" type="button"><small>eˣ</small><b>ln</b></button>
-          <button class="key sci" data-action="negate" type="button"><small>(−)</small><b>(−)</b></button>
+          <button class="key fn-key" data-action="fraction"><span class="shift-label">d/c</span><strong>a▯b</strong></button>
+          <button class="key fn-key" data-action="sqrt"><span class="shift-label">∛</span><strong>√</strong></button>
+          <button class="key fn-key" data-action="square"><span class="shift-label">x³</span><strong>x²</strong></button>
+          <button class="key fn-key" data-action="powerFn"><span class="shift-label">x¹⁄ʸ</span><strong>xʸ</strong></button>
+          <button class="key fn-key" data-action="log"><span class="shift-label">10ˣ</span><strong>log</strong></button>
 
-          <button class="key sci" data-action="angle" type="button"><small>°′″</small><b>°′″</b></button>
-          <button class="key sci" data-action="hyp" type="button"><small>hyp⁻¹</small><b>hyp</b></button>
-          <button class="key sci" data-action="sin" type="button"><small>sin⁻¹</small><b>sin</b></button>
-          <button class="key sci" data-action="cos" type="button"><small>cos⁻¹</small><b>cos</b></button>
-          <button class="key sci" data-action="tan" type="button"><small>tan⁻¹</small><b>tan</b></button>
+          <button class="key fn-key" data-action="ln"><span class="shift-label">eˣ</span><strong>ln</strong></button>
+          <button class="key fn-key" data-action="negate"><span class="shift-label">CONST</span><strong>(−)</strong></button>
+          <button class="key fn-key" data-action="angle"><span class="shift-label">DRG▶</span><strong>°′″</strong></button>
+          <button class="key fn-key" data-action="hyp"><span class="shift-label">hyp⁻¹</span><strong>hyp</strong></button>
+          <button class="key fn-key" data-action="sin"><span class="shift-label">sin⁻¹</span><strong>sin</strong></button>
 
-          <button class="key sci" data-action="rcl" type="button"><small>STO</small><b>RCL</b></button>
-          <button class="key sci" data-action="eng" type="button"><small>Rnd</small><b>ENG</b></button>
-          <button class="key sci" data-action="leftParen" type="button"><small>X</small><b>(</b></button>
-          <button class="key sci" data-action="rightParen" type="button"><small>Y</small><b>)</b></button>
-          <button class="key sci" data-action="toggleFraction" type="button"><small>▶DEC</small><b>S⇔D</b></button>
+          <button class="key fn-key" data-action="cos"><span class="shift-label">cos⁻¹</span><strong>cos</strong></button>
+          <button class="key fn-key" data-action="tan"><span class="shift-label">tan⁻¹</span><strong>tan</strong></button>
+          <button class="key fn-key" data-action="rcl"><span class="shift-label">STO</span><strong>RCL</strong></button>
+          <button class="key fn-key" data-action="eng"><span class="shift-label">Rnd</span><strong>ENG</strong></button>
+          <button class="key fn-key" data-action="toggleFraction"><span class="shift-label">▶DEC</span><strong>S⇔D</strong></button>
+
+          <button class="key fn-key" data-action="leftParen"><span class="shift-label">STAT</span><strong>(</strong></button>
+          <button class="key fn-key" data-action="rightParen"><span class="shift-label">SETUP</span><strong>)</strong></button>
+          <button class="key fn-key" data-action="pi"><span class="shift-label">e</span><strong>π</strong></button>
+          <button class="key fn-key" data-action="constant"><span class="shift-label">SCI</span><strong>CONST</strong></button>
+          <button class="key fn-key" data-action="percent"><span class="shift-label">RAN#</span><strong>%</strong></button>
         </section>
 
-        <section class="main-grid" id="main-grid" aria-label="Number and operation keys">
-          <button class="key num" data-digit="7" type="button"><small>OCT</small><b>7</b></button>
-          <button class="key num" data-digit="8" type="button"><small>BIN</small><b>8</b></button>
-          <button class="key num" data-digit="9" type="button"><small>HEX</small><b>9</b></button>
-          <button class="key utility" data-action="delete" type="button"><b>DEL</b></button>
-          <button class="key danger" data-action="clear" type="button"><b>AC</b></button>
+        <section class="number-grid" id="number-grid" aria-label="Number and operator keys">
+          <button class="key number-key" data-digit="7"><span class="secondary">CONST</span><strong>7</strong></button>
+          <button class="key number-key" data-digit="8"><span class="secondary">VECTOR</span><strong>8</strong></button>
+          <button class="key number-key" data-digit="9"><span class="secondary">MATRIX</span><strong>9</strong></button>
+          <button class="key edit-key" data-action="delete"><span class="secondary">CLR</span><strong>DEL</strong></button>
+          <button class="key ac-key" data-action="clear"><span class="secondary">OFF</span><strong>AC</strong></button>
 
-          <button class="key num" data-digit="4" type="button"><small>Q</small><b>4</b></button>
-          <button class="key num" data-digit="5" type="button"><small>R</small><b>5</b></button>
-          <button class="key num" data-digit="6" type="button"><small>S</small><b>6</b></button>
-          <button class="key op" data-action="multiply" type="button"><small>nPr</small><b>×</b></button>
-          <button class="key op" data-action="divide" type="button"><small>nCr</small><b>÷</b></button>
+          <button class="key number-key" data-digit="4"><span class="secondary">STAT</span><strong>4</strong></button>
+          <button class="key number-key" data-digit="5"><span class="secondary">CMPLX</span><strong>5</strong></button>
+          <button class="key number-key" data-digit="6"><span class="secondary">BASE</span><strong>6</strong></button>
+          <button class="key operator-key" data-action="multiply"><span class="secondary">nPr</span><strong>×</strong></button>
+          <button class="key operator-key" data-action="divide"><span class="secondary">nCr</span><strong>÷</strong></button>
 
-          <button class="key num" data-digit="1" type="button"><small>V</small><b>1</b></button>
-          <button class="key num" data-digit="2" type="button"><small>W</small><b>2</b></button>
-          <button class="key num" data-digit="3" type="button"><small>X</small><b>3</b></button>
-          <button class="key op" data-action="add" type="button"><small>Y</small><b>+</b></button>
-          <button class="key op" data-action="subtract" type="button"><small>Z</small><b>−</b></button>
+          <button class="key number-key" data-digit="1"><span class="secondary">MATRIX</span><strong>1</strong></button>
+          <button class="key number-key" data-digit="2"><span class="secondary">CMPLX</span><strong>2</strong></button>
+          <button class="key number-key" data-digit="3"><span class="secondary">BASE-N</span><strong>3</strong></button>
+          <button class="key operator-key" data-action="add"><span class="secondary">nPr</span><strong>+</strong></button>
+          <button class="key operator-key" data-action="subtract"><span class="secondary">nCr</span><strong>−</strong></button>
 
-          <button class="key num" data-digit="0" type="button"><small>Ran#</small><b>0</b></button>
-          <button class="key num" data-action="decimal" type="button"><small>π</small><b>.</b></button>
-          <button class="key num wide-label" data-action="exp" type="button"><small>e</small><b>×10ˣ</b></button>
-          <button class="key memory" data-action="answer" type="button"><small>DRG▶</small><b>Ans</b></button>
-          <button class="key equals" data-action="equals" type="button"><small>EXE</small><b>=</b></button>
+          <button class="key number-key" data-action="zero"><span class="secondary">RanInt</span><strong>0</strong></button>
+          <button class="key number-key" data-action="decimal"><span class="secondary">π</span><strong>·</strong></button>
+          <button class="key number-key exp-key" data-action="exp"><span class="secondary">e</span><strong>×10ˣ</strong></button>
+          <button class="key answer-key" data-action="answer"><span class="secondary">DRG▶</span><strong>Ans</strong></button>
+          <button class="key equals-key" data-action="equals"><span class="secondary">EXE</span><strong>=</strong></button>
         </section>
 
-        <footer class="calculator-footer">
-          <span>417-function inspired layout</span>
-          <span>Keyboard + touch</span>
+        <footer class="footer-note">
+          <span>CALQ • NATURAL DISPLAY</span>
+          <span>Scientific • Responsive • Touch</span>
         </footer>
       </section>
     </main>
