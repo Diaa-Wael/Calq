@@ -45,7 +45,7 @@ let shift = false;
 let alpha = false;
 let angleMode: AngleMode = 'DEG';
 let hyperbolic = false;
-let fractionMode = false;
+let displayFormat: 'decimal' | 'fraction' = 'decimal';
 let poweredOn = true;
 let calcHistory: string[] = [];
 let historyIndex = -1;
@@ -286,7 +286,9 @@ class Parser {
     }
 
     const char = this.source[this.index] ?? '';
-    if (/[0-9.]/.test(char)) return this.parseNumber();
+    if (/[0-9.]/.test(char)) {
+      return this.parseNumber();
+    }
     if (char === 'π') {
       this.index += 1;
       return Math.PI;
@@ -431,7 +433,7 @@ function calculate(): void {
   try {
     const value = evaluate(input);
     lastAnswer = value;
-    resultText = fractionMode ? decimalToFraction(value) : formatNumber(value);
+    resultText = displayFormat === 'fraction' ? decimalToFraction(value) : formatNumber(value);
     calcHistory.unshift(`${input} = ${resultText}`);
     calcHistory = calcHistory.slice(0, 20);
     input = resultText;
@@ -540,10 +542,10 @@ function handleScientific(action: Action): void {
     case 'constant': insert('e'); break;
     case 'percent': applyPostfix('%'); break;
     case 'toggleFraction':
-      fractionMode = !fractionMode;
+      displayFormat = displayFormat === 'fraction' ? 'decimal' : 'fraction';
       if (input) {
         const value = safeValue();
-        resultText = fractionMode ? decimalToFraction(value) : formatNumber(value);
+        resultText = displayFormat === 'fraction' ? decimalToFraction(value) : formatNumber(value);
         if (justCalculated) input = resultText;
       }
       break;
@@ -578,6 +580,7 @@ function handleAction(action: Action): void {
   if (action === 'clear') {
     input = '';
     resultText = '0';
+    displayFormat = 'decimal';
     justCalculated = false;
     clearModes();
     update();

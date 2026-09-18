@@ -326,7 +326,6 @@ button {
   grid-row: 3;
 }
 
-
 .footer-note {
   display: flex;
   justify-content: space-between;
@@ -413,7 +412,7 @@ button {
     grid-template-rows: repeat(5, minmax(0, 1fr));
     gap: var(--phone-gap);
   }
-  .scientific-grid { padding: 1px 2px 3px; }
+    .scientific-grid { padding: 1px 2px 3px; }
   .number-grid { padding: 0 2px 1px; }
 
   .fn-key,
@@ -483,8 +482,8 @@ button {
   .top-controls { min-height: 0; height: 100%; padding: 1px 4px; }
   .round-key { width: 27px; height: 27px; }
   .replay { height: 34px; }
-  .scientific-grid, .number-grid { min-height: 0; height: 100%; gap: 4px; }
-  .fn-key, .number-key, .operator-key, .edit-key, .answer-key, .equals-key, .ac-key { min-height: 0; height: 100%; }
+  .scientific-grid, .number-grid { min-height: 0; height: 100%; gap: 4px; grid-template-rows: repeat(5, minmax(0, 1fr)); }
+    .fn-key, .number-key, .operator-key, .edit-key, .answer-key, .equals-key, .ac-key { min-height: 0; height: 100%; }
   .fn-key strong { font-size: 9px; }
   .number-key strong, .operator-key strong { font-size: 19px; }
   .footer-note { display: none; }

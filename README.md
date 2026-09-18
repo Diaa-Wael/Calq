@@ -1,41 +1,209 @@
 # Calq
 
-Calq is a responsive TypeScript + Vite scientific calculator UI styled around the classic ES-series natural-display calculator layout.
+**Calq** is a modern, responsive scientific calculator built with **TypeScript, HTML, CSS, and Vite**.
 
-## What changed
+It combines the convenience of a web app with the familiar interaction style of classic natural-display scientific calculators, while being optimized for desktop, tablet, and mobile screens.
 
-- Scientific keypad is no longer a generic 4-column calculator.
-- Dedicated exponent controls: **x²** and **xʸ** now work.
-- The `^` keyboard key also inserts an exponent operator.
-- **√**, **∛**, **1/x**, **x!**, **log**, **ln**, **10ˣ**, **eˣ**, trig and inverse trig controls are wired up.
-- DEG / RAD / GRAD angle modes.
-- SHIFT and ALPHA state indicators.
-- Natural-display-style LCD and physical-key styling.
-- Mobile portrait and landscape layouts with safe-area support.
-- Keyboard and touch input.
-- Replay history, memory recall/store, Ans, fraction toggle, and engineering notation.
+> **Note:** Calq is an independent project inspired by classic scientific-calculator interfaces. It is **not affiliated with or endorsed by Casio**.
 
-The visual branding uses **CALQ** as the app wordmark while taking visual cues from the supplied ES-style reference rather than presenting the app as an official Casio product.
+## Features
 
-## Run
+- Classic scientific-calculator-inspired keypad
+- Natural-display-style LCD interface
+- `x²` exponentiation
+- `xʸ` power/exponent input
+- Square root `√`
+- Cube root `∛`
+- Reciprocal `1/x`
+- Factorial `x!`
+- Logarithms: `log`, `ln`
+- Exponential functions: `10ˣ`, `eˣ`
+- Trigonometric functions: `sin`, `cos`, `tan`
+- Inverse trigonometric functions through **SHIFT**: `sin⁻¹`, `cos⁻¹`, `tan⁻¹`
+- DEG / RAD / GRAD angle modes
+- SHIFT and ALPHA modifier states
+- Memory functions
+- `Ans` previous-answer support
+- Replay/history controls
+- Fraction input
+- Engineering notation
+- Keyboard input
+- Touch-friendly controls
+- Responsive mobile layout
+- Full-screen mobile calculator mode
+- Safe-area support for modern phones
+- Press animation on calculator keys
+
+## Natural Input
+
+Calq supports calculator-style function entry without requiring you to manually close function parentheses.
+
+For example:
+
+```text
+sin(30
+=
+```
+
+produces:
+
+```text
+0.5
+```
+
+The same behavior is supported for other unary functions.
+
+## Exponents
+
+Use the `xʸ` key for arbitrary powers.
+
+Example:
+
+```text
+2
+xʸ
+3
+=
+```
+
+Result:
+
+```text
+8
+```
+
+The square key can be used for:
+
+```text
+5
+x²
+=
+```
+
+Result:
+
+```text
+25
+```
+
+Keyboard exponent input is also supported with `^`.
+
+## SHIFT Functions
+
+Press **SHIFT** to activate the alternate function layer.
+
+For example:
+
+```text
+SHIFT
+sin
+```
+
+uses `sin⁻¹`.
+
+Likewise:
+
+```text
+SHIFT
+cos
+```
+
+uses `cos⁻¹`, and:
+
+```text
+SHIFT
+tan
+```
+
+uses `tan⁻¹`.
+
+## Mobile Support
+
+Calq is designed to use the available phone viewport efficiently.
+
+The mobile interface includes:
+
+- Full-width calculator layout
+- Full-height viewport layout
+- No unnecessary page scrolling
+- Responsive keypad sizing
+- Portrait support
+- Landscape support
+- Safe-area handling for devices with notches and home indicators
+- Large touch targets for comfortable input
+
+## Getting Started
+
+### Requirements
+
+- Node.js
+- npm
+
+### Installation
 
 ```bash
 npm install
+```
+
+### Development
+
+```bash
 npm run dev
 ```
 
-Then open the local Vite URL, normally:
+Then open the URL shown by Vite, normally:
 
 ```text
 http://localhost:5173
 ```
 
-## Production build
+### Production Build
 
 ```bash
 npm run build
 ```
 
+The production files are generated in `dist/`.
 
-### Natural function input
-Trig and other unary functions use Casio-style open-ended input. For example, enter `sin(` then `30` and press `=`; Calq automatically closes the unmatched parenthesis during evaluation, so you do not have to type the closing `)`.
+## Project Structure
+
+```text
+Calq/
+├── public/
+│   └── calculator.svg
+├── src/
+│   ├── main.ts
+│   ├── style.css
+│   └── vite-env.d.ts
+├── index.html
+├── package.json
+├── README.md
+├── .gitignore
+├── tsconfig.json
+├── tsconfig.app.json
+├── tsconfig.node.json
+└── vite.config.ts
+```
+
+## Tech Stack
+
+- **TypeScript** — calculator logic and application behavior
+- **HTML** — application structure
+- **CSS** — calculator styling and responsive layouts
+- **Vite** — development server and production bundling
+
+## Design
+
+The interface takes visual inspiration from classic ES-series scientific calculators, including physical-style calculator keys, secondary SHIFT/ALPHA labels, a natural-display-inspired LCD, compact scientific function labels, and traditional scientific-calculator input conventions.
+
+Calq uses its own **CALQ** branding rather than copying the original manufacturer's branding.
+
+## License
+
+Choose and add a license appropriate for your project before publishing, such as the MIT License.
+
+## Status
+
+Calq is an actively developed scientific-calculator web application focused on:
+
+**familiar controls + modern responsive web design.**
