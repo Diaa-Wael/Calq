@@ -65,6 +65,30 @@ function refreshShiftKeycaps(): void {
   }
 }
 
+function fitDisplayText(element: HTMLElement, maxPx: number, minPx: number): void {
+  if (!element.isConnected) return;
+  element.style.fontSize = '';
+  const available = element.clientWidth;
+  if (!available) return;
+
+  let size = Number.parseFloat(getComputedStyle(element).fontSize) || maxPx;
+  size = Math.min(size, maxPx);
+  element.style.fontSize = `${size}px`;
+
+  let guard = 0;
+  while (element.scrollWidth > available + 1 && size > minPx && guard < 40) {
+    const ratio = available / element.scrollWidth;
+    size = Math.max(minPx, size * Math.min(0.96, ratio * 0.98));
+    element.style.fontSize = `${size}px`;
+    guard += 1;
+  }
+}
+
+function fitDisplayTextToViewport(): void {
+  fitDisplayText(expressionEl, 18, 8);
+  fitDisplayText(display, 32, 11);
+}
+
 function update(): void {
   expressionEl.textContent = poweredOn ? (input || '0') : 'POWER OFF';
   display.textContent = poweredOn ? resultText : '';
@@ -87,6 +111,7 @@ function update(): void {
   mathIndicator.classList.add('lcd-active');
   refreshShiftKeycaps();
   document.documentElement.classList.toggle('powered-off', !poweredOn);
+  requestAnimationFrame(fitDisplayTextToViewport);
 }
 
 function clearModes(): void {
@@ -731,6 +756,14 @@ replay.addEventListener('click', (event) => {
     update();
   }
 });
+
+const screenElement = document.querySelector<HTMLElement>('.screen');
+if (screenElement) {
+  const displayResizeObserver = new ResizeObserver(() => fitDisplayTextToViewport());
+  displayResizeObserver.observe(screenElement);
+}
+window.addEventListener('orientationchange', () => requestAnimationFrame(fitDisplayTextToViewport));
+window.addEventListener('resize', () => requestAnimationFrame(fitDisplayTextToViewport));
 
 window.addEventListener('keydown', (event) => {
   const key = event.key;
