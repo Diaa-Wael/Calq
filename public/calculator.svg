@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none"><title>Calq</title><desc>Calq scientific calculator icon</desc>
+  <rect x="8" y="4" width="48" height="56" rx="10" fill="#24282d"/>
+  <rect x="13" y="10" width="38" height="14" rx="3" fill="#b9dfcf"/>
+  <g fill="#555c63">
+    <rect x="13" y="29" width="8" height="6" rx="2"/><rect x="23" y="29" width="8" height="6" rx="2"/><rect x="33" y="29" width="8" height="6" rx="2"/><rect x="43" y="29" width="8" height="6" rx="2"/>
+    <rect x="13" y="37" width="8" height="6" rx="2"/><rect x="23" y="37" width="8" height="6" rx="2"/><rect x="33" y="37" width="8" height="6" rx="2"/><rect x="43" y="37" width="8" height="6" rx="2"/>
+    <rect x="13" y="45" width="8" height="6" rx="2"/><rect x="23" y="45" width="8" height="6" rx="2"/><rect x="33" y="45" width="8" height="6" rx="2"/><rect x="43" y="45" width="8" height="6" rx="2"/>
+  </g>
+  <rect x="43" y="53" width="8" height="4" rx="2" fill="#8fd5bc"/>
+</svg>
