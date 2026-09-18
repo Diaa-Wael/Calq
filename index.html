@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta name="theme-color" content="#15171a" />
     <meta name="description" content="Calq — a responsive scientific calculator with a classic natural-display keypad." />
+    <link rel="stylesheet" href="/src/style.css" />
     <link rel="icon" type="image/svg+xml" href="/calculator.svg" />
     <title>Calq</title>
   </head>
@@ -87,10 +88,10 @@
           <button class="key fn-key" data-action="negate"><span class="shift-label">CONST</span><strong>(−)</strong></button>
           <button class="key fn-key" data-action="angle"><span class="shift-label">DRG▶</span><strong>°′″</strong></button>
           <button class="key fn-key" data-action="hyp"><span class="shift-label">hyp⁻¹</span><strong>hyp</strong></button>
-          <button class="key fn-key" data-action="sin"><span class="shift-label">sin⁻¹</span><strong>sin</strong></button>
+          <button class="key fn-key trig-key" data-action="sin" data-normal="sin" data-shift="sin⁻¹"><span class="shift-label">sin⁻¹</span><strong class="trig-main">sin</strong></button>
 
-          <button class="key fn-key" data-action="cos"><span class="shift-label">cos⁻¹</span><strong>cos</strong></button>
-          <button class="key fn-key" data-action="tan"><span class="shift-label">tan⁻¹</span><strong>tan</strong></button>
+          <button class="key fn-key trig-key" data-action="cos" data-normal="cos" data-shift="cos⁻¹"><span class="shift-label">cos⁻¹</span><strong class="trig-main">cos</strong></button>
+          <button class="key fn-key trig-key" data-action="tan" data-normal="tan" data-shift="tan⁻¹"><span class="shift-label">tan⁻¹</span><strong class="trig-main">tan</strong></button>
           <button class="key fn-key" data-action="rcl"><span class="shift-label">STO</span><strong>RCL</strong></button>
           <button class="key fn-key" data-action="eng"><span class="shift-label">Rnd</span><strong>ENG</strong></button>
           <button class="key fn-key" data-action="toggleFraction"><span class="shift-label">▶DEC</span><strong>S⇔D</strong></button>

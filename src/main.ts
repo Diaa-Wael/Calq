@@ -1,5 +1,3 @@
-import './style.css';
-
 type Action =
   | 'shift' | 'alpha' | 'mode' | 'power' | 'calc' | 'integral' | 'reciprocal' | 'root'
   | 'logbase' | 'fraction' | 'sqrt' | 'square' | 'powerFn' | 'log' | 'ln' | 'negate'
@@ -20,6 +18,7 @@ const shiftIndicator = $('#shift-indicator') as HTMLSpanElement;
 const alphaIndicator = $('#alpha-indicator') as HTMLSpanElement;
 const angleIndicator = $('#angle-indicator') as HTMLSpanElement;
 const memoryIndicator = $('#memory-indicator') as HTMLSpanElement;
+const trigKeys = Array.from(document.querySelectorAll<HTMLButtonElement>('.trig-key[data-action]'));
 
 if (!display || !expressionEl || !scientificGrid || !numberGrid || !replay || !shiftIndicator || !alphaIndicator || !angleIndicator || !memoryIndicator) {
   throw new Error('Calq UI failed to initialize.');
@@ -42,6 +41,17 @@ let justCalculated = false;
 const DEG = Math.PI / 180;
 const GRAD = Math.PI / 200;
 
+function refreshShiftKeycaps(): void {
+  for (const button of trigKeys) {
+    const main = button.querySelector<HTMLElement>('.trig-main');
+    if (!main) continue;
+    const normal = button.dataset.normal ?? main.dataset.normal ?? main.textContent ?? '';
+    const inverse = button.dataset.shift ?? main.dataset.shift ?? `${normal}⁻¹`;
+    main.textContent = shift ? inverse : normal;
+    button.setAttribute('aria-label', shift ? `${inverse} function` : `${normal} function`);
+  }
+}
+
 function update(): void {
   expressionEl.textContent = poweredOn ? (input || '0') : 'POWER OFF';
   display.textContent = poweredOn ? resultText : '';
@@ -49,6 +59,7 @@ function update(): void {
   alphaIndicator.classList.toggle('active', alpha);
   angleIndicator.textContent = angleMode;
   memoryIndicator.classList.toggle('active', Math.abs(memory) > Number.EPSILON);
+  refreshShiftKeycaps();
   document.documentElement.classList.toggle('powered-off', !poweredOn);
 }
 
@@ -293,9 +304,12 @@ class Parser {
     if (!this.match(')')) throw new Error('Syntax Error');
 
     switch (normalized) {
-      case 'sin': return hyperbolic ? Math.sinh(toRadians(arg)) : Math.sin(toRadians(arg));
-      case 'cos': return hyperbolic ? Math.cosh(toRadians(arg)) : Math.cos(toRadians(arg));
-      case 'tan': return hyperbolic ? Math.tanh(toRadians(arg)) : Math.tan(toRadians(arg));
+      case 'sin': return Math.sin(toRadians(arg));
+      case 'cos': return Math.cos(toRadians(arg));
+      case 'tan': return Math.tan(toRadians(arg));
+      case 'sinh': return Math.sinh(toRadians(arg));
+      case 'cosh': return Math.cosh(toRadians(arg));
+      case 'tanh': return Math.tanh(toRadians(arg));
       case 'asin': return fromRadians(Math.asin(arg));
       case 'acos': return fromRadians(Math.acos(arg));
       case 'atan': return fromRadians(Math.atan(arg));
@@ -463,13 +477,13 @@ function handleScientific(action: Action): void {
       hyperbolic = !hyperbolic;
       break;
     case 'sin':
-      wrapUnary(useShift ? 'asin' : 'sin');
+      wrapUnary(useShift ? (hyperbolic ? 'asinh' : 'asin') : (hyperbolic ? 'sinh' : 'sin'));
       break;
     case 'cos':
-      wrapUnary(useShift ? 'acos' : 'cos');
+      wrapUnary(useShift ? (hyperbolic ? 'acosh' : 'acos') : (hyperbolic ? 'cosh' : 'cos'));
       break;
     case 'tan':
-      wrapUnary(useShift ? 'atan' : 'tan');
+      wrapUnary(useShift ? (hyperbolic ? 'atanh' : 'atan') : (hyperbolic ? 'tanh' : 'tan'));
       break;
     case 'rcl':
       if (useShift) memory = safeValue();
