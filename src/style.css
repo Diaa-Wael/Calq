@@ -642,3 +642,216 @@ button {
   .screen-expression { min-height: 25px; font-size: 12px; }
   .screen-result { font-size: clamp(25px, 9.2vw, 39px); }
 }
+
+/* -------------------------------------------------------------------------
+   Final ES-PLUS-inspired LCD treatment
+   Keep CALQ as the project mark; the visual language follows the classic
+   natural textbook / dot-matrix calculator display.
+   ------------------------------------------------------------------------- */
+:root {
+  --lcd-paper: #e3f0eb;
+  --lcd-paper-low: #d5e6df;
+  --lcd-ink: #18251f;
+  --lcd-muted: rgba(24, 37, 31, .36);
+  --lcd-shell: #282d2e;
+}
+
+.display-frame {
+  padding: 8px;
+  border-radius: 10px;
+  background: linear-gradient(180deg, #121617 0%, #272c2d 48%, #111415 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.14),
+    inset 0 -2px 0 rgba(0,0,0,.65),
+    0 2px 0 rgba(255,255,255,.035),
+    0 8px 16px rgba(0,0,0,.28);
+}
+
+.screen {
+  min-height: 124px;
+  position: relative;
+  overflow: hidden;
+  border: 2px solid #555d5c;
+  border-radius: 5px;
+  padding: 7px 9px 8px;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.17) 0%, rgba(255,255,255,0) 12%),
+    repeating-linear-gradient(0deg, rgba(20,42,33,.028) 0 1px, transparent 1px 3px),
+    linear-gradient(180deg, var(--lcd-paper) 0%, var(--lcd-paper-low) 100%);
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,.22),
+    inset 0 0 14px rgba(24,52,40,.17),
+    0 0 0 1px rgba(0,0,0,.74),
+    0 2px 3px rgba(0,0,0,.38);
+  color: var(--lcd-ink);
+  font-family: "Lucida Console", "Courier New", monospace;
+}
+
+.screen::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 18% 16%, rgba(255,255,255,.18), transparent 24%),
+    linear-gradient(90deg, rgba(255,255,255,.035), transparent 22%, transparent 76%, rgba(0,0,0,.025));
+}
+
+.screen::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 8px;
+  pointer-events: none;
+  background: linear-gradient(180deg, transparent, rgba(33,55,45,.055));
+}
+
+.lcd-header,
+.lcd-status-line,
+.lcd-math-area {
+  position: relative;
+  z-index: 2;
+}
+
+.lcd-header {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: start;
+  min-height: 14px;
+  font-size: 8px;
+  line-height: 1;
+  color: rgba(20,33,27,.28);
+  font-weight: 900;
+}
+
+.lcd-header-left,
+.lcd-header-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.lcd-header-right { justify-content: flex-end; }
+
+.lcd-header-center {
+  justify-self: center;
+  min-width: 11px;
+  text-align: center;
+}
+
+.lcd-mode-glyph {
+  display: inline-block;
+  min-width: 9px;
+  padding: 1px 2px 0;
+  border: 1px solid rgba(20,33,27,.28);
+  border-radius: 1px;
+  font-size: 7px;
+  line-height: 7px;
+  color: rgba(20,33,27,.85);
+}
+
+.lcd-header-right #math-indicator,
+.lcd-header-right .lcd-triangle {
+  color: rgba(20,33,27,.92);
+}
+
+.lcd-triangle {
+  font-size: 7px;
+  line-height: 1;
+}
+
+.lcd-status-line {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  min-height: 10px;
+  margin-top: 2px;
+  overflow: hidden;
+  white-space: nowrap;
+  font-size: 6px;
+  line-height: 1;
+  color: rgba(20,33,27,.18);
+  font-weight: 900;
+  text-transform: none;
+}
+
+.lcd-status-line span {
+  flex: 0 0 auto;
+}
+
+.lcd-status-line .lcd-active {
+  color: rgba(20,33,27,.84);
+}
+
+.lcd-math-area {
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  min-height: 86px;
+  margin-top: 1px;
+}
+
+.screen-expression {
+  min-height: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: clip;
+  text-align: left;
+  padding: 5px 2px 0;
+  font-family: "Lucida Console", "Courier New", monospace;
+  font-size: clamp(14px, 3.3vw, 18px);
+  line-height: 1.2;
+  letter-spacing: -.025em;
+  font-weight: 700;
+  color: rgba(21,35,28,.74);
+  text-rendering: geometricPrecision;
+}
+
+.screen-result {
+  min-height: 27px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: clip;
+  text-align: right;
+  padding: 0 1px 1px 2px;
+  font-family: "Lucida Console", "Courier New", monospace;
+  font-size: clamp(21px, 6vw, 32px);
+  line-height: 1;
+  letter-spacing: -.04em;
+  font-weight: 700;
+  color: rgba(18,32,25,.93);
+  text-shadow: 0 .5px 0 rgba(255,255,255,.15);
+}
+
+.powered-off .screen {
+  background: linear-gradient(180deg, #b5c0ba, #a7b3ad);
+}
+
+.powered-off .screen::before,
+.powered-off .screen::after { opacity: .35; }
+
+.powered-off .screen-expression,
+.powered-off .screen-result,
+.powered-off .lcd-header,
+.powered-off .lcd-status-line { color: rgba(26,36,31,.35); }
+
+@media (max-width: 430px) {
+  .display-frame { padding: 5px; }
+  .screen { min-height: 0; height: 100%; padding: 6px 7px 7px; }
+  .lcd-header { min-height: 12px; font-size: 7px; }
+  .lcd-header-left, .lcd-header-right { gap: 5px; }
+  .lcd-status-line { gap: 5px; font-size: 5px; }
+  .lcd-math-area { min-height: 0; height: calc(100% - 23px); }
+  .screen-expression { padding-top: 4px; font-size: clamp(12px, 3.5vw, 16px); }
+  .screen-result { min-height: 24px; font-size: clamp(19px, 6vw, 29px); }
+}
+
+@media (max-width: 360px) {
+  .screen { padding: 5px 6px 6px; }
+  .lcd-header { font-size: 6px; }
+  .lcd-header-left, .lcd-header-right { gap: 4px; }
+  .lcd-status-line { gap: 4px; font-size: 4.5px; }
+  .screen-expression { font-size: 11px; }
+  .screen-result { font-size: 18px; }
+}

@@ -15,7 +15,7 @@
         <header class="top-brand">
           <div class="wordmark-wrap">
             <div class="wordmark">CALQ</div>
-            <div class="model-name">fx-991ES PLUS</div>
+            <div class="model-name">fx-570ES PLUS</div>
             <div class="natural">NATURAL-V.P.A.M.</div>
           </div>
           <div class="top-right">
@@ -28,28 +28,38 @@
 
         <section class="display-frame" aria-label="Calculator display">
           <div class="screen" id="screen" tabindex="0" aria-live="polite">
-            <div class="lcd-indicator-row" aria-hidden="true">
-              <span id="shift-indicator">S</span>
-              <span id="alpha-indicator">A</span>
-              <span id="memory-indicator">M</span>
-              <span id="sto-indicator">STO</span>
-              <span id="rcl-indicator">RCL</span>
+            <div class="lcd-header" aria-hidden="true">
+              <div class="lcd-header-left">
+                <span id="shift-indicator">S</span>
+                <span id="alpha-indicator">A</span>
+                <span id="memory-indicator">M</span>
+              </div>
+              <div class="lcd-header-center"><span class="lcd-mode-glyph">B</span></div>
+              <div class="lcd-header-right">
+                <span id="math-indicator" class="lcd-active">Math</span>
+                <span class="lcd-triangle">▲</span>
+              </div>
+            </div>
+
+            <div class="lcd-status-line" aria-hidden="true">
+              <span id="angle-indicator" class="lcd-active">Deg</span>
+              <span id="rad-indicator">Rad</span>
+              <span id="grad-indicator">Gra</span>
+              <span id="fix-indicator">Fix</span>
+              <span id="sci-indicator">Sci</span>
+              <span id="eng-indicator">Eng</span>
               <span id="stat-indicator">STAT</span>
               <span id="cmplx-indicator">CMPLX</span>
               <span id="mat-indicator">MAT</span>
               <span id="vct-indicator">VCT</span>
+              <span id="sto-indicator">STO</span>
+              <span id="rcl-indicator">RCL</span>
             </div>
-            <div class="lcd-mode-row" aria-hidden="true">
-              <span id="angle-indicator" class="lcd-active">DEG</span>
-              <span id="rad-indicator">RAD</span>
-              <span id="grad-indicator">GRA</span>
-              <span id="fix-indicator">FIX</span>
-              <span id="sci-indicator">SCI</span>
-              <span id="eng-indicator">ENG</span>
-              <span id="math-indicator" class="lcd-active">Math</span>
+
+            <div class="lcd-math-area">
+              <div class="screen-expression" id="expression">0</div>
+              <div class="screen-result" id="display">0</div>
             </div>
-            <div class="screen-expression" id="expression">0</div>
-            <div class="screen-result" id="display">0</div>
           </div>
         </section>
 
