@@ -27,17 +27,27 @@
         </header>
 
         <section class="display-frame" aria-label="Calculator display">
-          <div class="display-topline">
-            <div class="status-left">
-              <span id="shift-indicator">SHIFT</span>
-              <span id="alpha-indicator">ALPHA</span>
-            </div>
-            <div class="status-right">
-              <span id="angle-indicator">DEG</span>
-              <span id="memory-indicator">M</span>
-            </div>
-          </div>
           <div class="screen" id="screen" tabindex="0" aria-live="polite">
+            <div class="lcd-indicator-row" aria-hidden="true">
+              <span id="shift-indicator">S</span>
+              <span id="alpha-indicator">A</span>
+              <span id="memory-indicator">M</span>
+              <span id="sto-indicator">STO</span>
+              <span id="rcl-indicator">RCL</span>
+              <span id="stat-indicator">STAT</span>
+              <span id="cmplx-indicator">CMPLX</span>
+              <span id="mat-indicator">MAT</span>
+              <span id="vct-indicator">VCT</span>
+            </div>
+            <div class="lcd-mode-row" aria-hidden="true">
+              <span id="angle-indicator" class="lcd-active">DEG</span>
+              <span id="rad-indicator">RAD</span>
+              <span id="grad-indicator">GRA</span>
+              <span id="fix-indicator">FIX</span>
+              <span id="sci-indicator">SCI</span>
+              <span id="eng-indicator">ENG</span>
+              <span id="math-indicator" class="lcd-active">Math</span>
+            </div>
             <div class="screen-expression" id="expression">0</div>
             <div class="screen-result" id="display">0</div>
           </div>

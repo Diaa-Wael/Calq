@@ -19,9 +19,21 @@ const shiftIndicator = $('#shift-indicator') as HTMLSpanElement;
 const alphaIndicator = $('#alpha-indicator') as HTMLSpanElement;
 const angleIndicator = $('#angle-indicator') as HTMLSpanElement;
 const memoryIndicator = $('#memory-indicator') as HTMLSpanElement;
+const stoIndicator = $('#sto-indicator') as HTMLSpanElement;
+const rclIndicator = $('#rcl-indicator') as HTMLSpanElement;
+const statIndicator = $('#stat-indicator') as HTMLSpanElement;
+const cmplxIndicator = $('#cmplx-indicator') as HTMLSpanElement;
+const matIndicator = $('#mat-indicator') as HTMLSpanElement;
+const vctIndicator = $('#vct-indicator') as HTMLSpanElement;
+const radIndicator = $('#rad-indicator') as HTMLSpanElement;
+const gradIndicator = $('#grad-indicator') as HTMLSpanElement;
+const fixIndicator = $('#fix-indicator') as HTMLSpanElement;
+const sciIndicator = $('#sci-indicator') as HTMLSpanElement;
+const engIndicator = $('#eng-indicator') as HTMLSpanElement;
+const mathIndicator = $('#math-indicator') as HTMLSpanElement;
 const trigKeys = Array.from(document.querySelectorAll<HTMLButtonElement>('.trig-key[data-action]'));
 
-if (!display || !expressionEl || !scientificGrid || !numberGrid || !topControls || !replay || !shiftIndicator || !alphaIndicator || !angleIndicator || !memoryIndicator) {
+if (!display || !expressionEl || !scientificGrid || !numberGrid || !topControls || !replay || !shiftIndicator || !alphaIndicator || !angleIndicator || !memoryIndicator || !stoIndicator || !rclIndicator || !statIndicator || !cmplxIndicator || !matIndicator || !vctIndicator || !radIndicator || !gradIndicator || !fixIndicator || !sciIndicator || !engIndicator || !mathIndicator) {
   throw new Error('Calq UI failed to initialize.');
 }
 
@@ -56,10 +68,23 @@ function refreshShiftKeycaps(): void {
 function update(): void {
   expressionEl.textContent = poweredOn ? (input || '0') : 'POWER OFF';
   display.textContent = poweredOn ? resultText : '';
-  shiftIndicator.classList.toggle('active', shift);
-  alphaIndicator.classList.toggle('active', alpha);
-  angleIndicator.textContent = angleMode;
-  memoryIndicator.classList.toggle('active', Math.abs(memory) > Number.EPSILON);
+  shiftIndicator.classList.toggle('lcd-active', shift);
+  alphaIndicator.classList.toggle('lcd-active', alpha);
+  memoryIndicator.classList.toggle('lcd-active', Math.abs(memory) > Number.EPSILON);
+  stoIndicator.classList.remove('lcd-active');
+  rclIndicator.classList.remove('lcd-active');
+  statIndicator.classList.remove('lcd-active');
+  cmplxIndicator.classList.remove('lcd-active');
+  matIndicator.classList.remove('lcd-active');
+  vctIndicator.classList.remove('lcd-active');
+  radIndicator.classList.toggle('lcd-active', angleMode === 'RAD');
+  gradIndicator.classList.toggle('lcd-active', angleMode === 'GRAD');
+  angleIndicator.classList.toggle('lcd-active', angleMode === 'DEG');
+  angleIndicator.textContent = 'DEG';
+  fixIndicator.classList.remove('lcd-active');
+  sciIndicator.classList.remove('lcd-active');
+  engIndicator.classList.remove('lcd-active');
+  mathIndicator.classList.add('lcd-active');
   refreshShiftKeycaps();
   document.documentElement.classList.toggle('powered-off', !poweredOn);
 }

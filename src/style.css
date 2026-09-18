@@ -491,3 +491,154 @@ button {
 }
 
 @media (prefers-reduced-motion: reduce) { .key, .replay { transition: none; } }
+
+/* --- Classic ES-series LCD treatment --- */
+.display-frame {
+  padding: 6px;
+  background: linear-gradient(180deg, #171a1c, #0e1011);
+  border-radius: 12px;
+  box-shadow: inset 0 2px 7px rgba(0,0,0,.72), 0 1px 0 rgba(255,255,255,.05);
+}
+
+.screen {
+  position: relative;
+  overflow: hidden;
+  min-height: 132px;
+  border: 1px solid #505a59;
+  border-radius: 5px;
+  padding: 7px 9px 8px;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.14), rgba(255,255,255,0) 15%),
+    repeating-linear-gradient(0deg, rgba(27,48,40,.035) 0 1px, transparent 1px 3px),
+    linear-gradient(180deg, #b7cebd 0%, #a6c0af 100%);
+  box-shadow:
+    inset 0 0 14px rgba(23,47,36,.20),
+    inset 0 1px 0 rgba(255,255,255,.28),
+    0 0 0 1px rgba(0,0,0,.78);
+  color: #22352b;
+  font-family: "Lucida Console", "Courier New", monospace;
+}
+
+.screen::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(112deg, rgba(255,255,255,.07), transparent 22%, transparent 78%, rgba(0,0,0,.04));
+  mix-blend-mode: multiply;
+}
+
+.lcd-indicator-row,
+.lcd-mode-row {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: clamp(4px, 1.5vw, 8px);
+  min-height: 10px;
+  overflow: hidden;
+  white-space: nowrap;
+  color: rgba(34,53,43,.22);
+  text-transform: uppercase;
+  font-size: clamp(5px, 1.4vw, 7px);
+  line-height: 1;
+  letter-spacing: -.02em;
+  font-weight: 900;
+}
+
+.lcd-mode-row {
+  margin-top: 3px;
+  font-size: clamp(5px, 1.35vw, 7px);
+  gap: clamp(5px, 1.8vw, 9px);
+}
+
+.lcd-indicator-row span,
+.lcd-mode-row span {
+  flex: 0 0 auto;
+  text-shadow: 0 .5px 0 rgba(255,255,255,.10);
+}
+
+.lcd-indicator-row .lcd-active,
+.lcd-mode-row .lcd-active {
+  color: rgba(32,53,42,.92);
+}
+
+.screen-expression {
+  position: relative;
+  z-index: 1;
+  min-height: 38px;
+  margin-top: 3px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: clip;
+  text-align: left;
+  font-family: "Lucida Console", "Courier New", monospace;
+  font-size: clamp(14px, 4vw, 20px);
+  font-weight: 700;
+  line-height: 1.35;
+  letter-spacing: -.08em;
+  color: rgba(35,54,44,.60);
+}
+
+.screen-result {
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: clip;
+  text-align: right;
+  font-family: "Lucida Console", "Courier New", monospace;
+  font-size: clamp(30px, 8.6vw, 54px);
+  font-weight: 900;
+  line-height: .95;
+  letter-spacing: -.10em;
+  color: rgba(28,49,39,.94);
+  text-shadow: 0 1px 0 rgba(255,255,255,.06);
+}
+
+.top-brand {
+  padding-bottom: 7px;
+}
+
+.wordmark {
+  position: relative;
+  display: inline-block;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 25px;
+  letter-spacing: -.09em;
+  font-weight: 900;
+  font-style: italic;
+  transform: skewX(-8deg);
+  text-shadow: 0 1px 0 rgba(255,255,255,.18), 0 2px 2px rgba(0,0,0,.45);
+}
+
+.wordmark::after {
+  content: '';
+  position: absolute;
+  left: 1px;
+  right: 1px;
+  bottom: -3px;
+  height: 1px;
+  background: rgba(255,255,255,.30);
+  transform: skewX(12deg);
+}
+
+.model-name { letter-spacing: .01em; }
+.natural { letter-spacing: -.015em; }
+
+@media (max-width: 430px) {
+  .display-frame { padding: 5px; }
+  .screen { padding: 6px 7px 7px; }
+  .lcd-indicator-row, .lcd-mode-row { gap: clamp(3px, 1.2vw, 6px); font-size: clamp(4.5px, 1.3vw, 6.5px); }
+  .screen-expression { min-height: 30px; font-size: clamp(12px, 3.6vw, 17px); }
+  .screen-result { font-size: clamp(28px, 9vw, 46px); }
+  .wordmark { font-size: clamp(20px, 6.1vw, 25px); }
+}
+
+@media (max-width: 360px) {
+  .screen { padding: 5px 6px 6px; }
+  .lcd-indicator-row, .lcd-mode-row { gap: 3px; font-size: 4.5px; }
+  .screen-expression { min-height: 25px; font-size: 12px; }
+  .screen-result { font-size: clamp(25px, 9.2vw, 39px); }
+}
