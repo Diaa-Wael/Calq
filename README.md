@@ -35,3 +35,7 @@ http://localhost:5173
 ```bash
 npm run build
 ```
+
+
+### Natural function input
+Trig and other unary functions use Casio-style open-ended input. For example, enter `sin(` then `30` and press `=`; Calq automatically closes the unmatched parenthesis during evaluation, so you do not have to type the closing `)`.

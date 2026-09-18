@@ -13,6 +13,7 @@ const display = $('#display') as HTMLDivElement;
 const expressionEl = $('#expression') as HTMLDivElement;
 const scientificGrid = $('#scientific-grid') as HTMLDivElement;
 const numberGrid = $('#number-grid') as HTMLDivElement;
+const topControls = document.querySelector<HTMLElement>('.top-controls');
 const replay = $('#replay') as HTMLButtonElement;
 const shiftIndicator = $('#shift-indicator') as HTMLSpanElement;
 const alphaIndicator = $('#alpha-indicator') as HTMLSpanElement;
@@ -20,7 +21,7 @@ const angleIndicator = $('#angle-indicator') as HTMLSpanElement;
 const memoryIndicator = $('#memory-indicator') as HTMLSpanElement;
 const trigKeys = Array.from(document.querySelectorAll<HTMLButtonElement>('.trig-key[data-action]'));
 
-if (!display || !expressionEl || !scientificGrid || !numberGrid || !replay || !shiftIndicator || !alphaIndicator || !angleIndicator || !memoryIndicator) {
+if (!display || !expressionEl || !scientificGrid || !numberGrid || !topControls || !replay || !shiftIndicator || !alphaIndicator || !angleIndicator || !memoryIndicator) {
   throw new Error('Calq UI failed to initialize.');
 }
 
@@ -34,7 +35,7 @@ let angleMode: AngleMode = 'DEG';
 let hyperbolic = false;
 let fractionMode = false;
 let poweredOn = true;
-let history: string[] = [];
+let calcHistory: string[] = [];
 let historyIndex = -1;
 let justCalculated = false;
 
@@ -342,8 +343,22 @@ function normalizeRawExpression(raw: string): string {
     .replace(/Ans/g, 'Ans');
 }
 
+function closeUnmatchedParentheses(source: string): string {
+  // Casio-style natural input lets function calls such as `sin(30`
+  // evaluate directly without requiring the user to type the closing `)`.
+  // Add only the missing closing parentheses at evaluation time so the
+  // expression shown on the calculator can still remain open-ended.
+  let depth = 0;
+  for (const char of source) {
+    if (char === '(') depth += 1;
+    else if (char === ')' && depth > 0) depth -= 1;
+  }
+  return depth > 0 ? source + ')'.repeat(depth) : source;
+}
+
 function evaluate(raw: string): number {
-  const source = normalizeRawExpression(raw).replaceAll('*', '×').replaceAll('/', '÷');
+  const normalized = normalizeRawExpression(raw);
+  const source = closeUnmatchedParentheses(normalized).replaceAll('*', '×').replaceAll('/', '÷');
   const value = new Parser(source).parse();
   if (!Number.isFinite(value)) throw new Error('Math Error');
   return value;
@@ -392,8 +407,8 @@ function calculate(): void {
     const value = evaluate(input);
     lastAnswer = value;
     resultText = fractionMode ? decimalToFraction(value) : formatNumber(value);
-    history.unshift(`${input} = ${resultText}`);
-    history = history.slice(0, 20);
+    calcHistory.unshift(`${input} = ${resultText}`);
+    calcHistory = calcHistory.slice(0, 20);
     input = resultText;
     justCalculated = true;
     historyIndex = -1;
@@ -586,15 +601,30 @@ function bindGrid(grid: HTMLElement): void {
 bindGrid(scientificGrid);
 bindGrid(numberGrid);
 
+// The modifier/control keys live outside the calculator grids, so they need
+// their own click handler. In particular, SHIFT must actually toggle the
+// modifier state before a trig key is pressed.
+topControls.addEventListener('click', (event) => {
+  const button = (event.target as HTMLElement).closest<HTMLButtonElement>('button[data-action]');
+  if (!button) return;
+  button.classList.remove('pressed');
+  void button.offsetWidth;
+  button.classList.add('pressed');
+  window.setTimeout(() => button.classList.remove('pressed'), 120);
+
+  const action = button.dataset.action as Action | undefined;
+  if (action) handleAction(action);
+});
+
 replay.addEventListener('click', (event) => {
-  if (history.length === 0) return;
+  if (calcHistory.length === 0) return;
   const rect = replay.getBoundingClientRect();
   const x = (event as MouseEvent).clientX - rect.left - rect.width / 2;
   const y = (event as MouseEvent).clientY - rect.top - rect.height / 2;
   if (Math.abs(x) > Math.abs(y)) historyIndex += x < 0 ? 1 : -1;
   else historyIndex += y < 0 ? 1 : -1;
-  historyIndex = Math.max(0, Math.min(history.length - 1, historyIndex));
-  const entry = history[historyIndex];
+  historyIndex = Math.max(0, Math.min(calcHistory.length - 1, historyIndex));
+  const entry = calcHistory[historyIndex];
   if (entry) {
     input = entry.split(' = ')[0] ?? '';
     resultText = input || '0';
