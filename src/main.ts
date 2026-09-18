@@ -554,9 +554,13 @@ function bindGrid(grid: HTMLElement): void {
   grid.addEventListener('click', (event) => {
     const button = (event.target as HTMLElement).closest<HTMLButtonElement>('button[data-action],button[data-digit]');
     if (!button) return;
+    // Give the key a brief physical press animation, then always return it to
+    // its normal resting shape. The old implementation left .pressed on the
+    // button, which made keys look permanently depressed after a click.
     button.classList.remove('pressed');
     void button.offsetWidth;
     button.classList.add('pressed');
+    window.setTimeout(() => button.classList.remove('pressed'), 120);
 
     const action = button.dataset.action as Action | undefined;
     const digit = button.dataset.digit;
